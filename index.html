@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Arimo:wght@400;500;700&family=Josefin+Sans:wght@500;700&family=Roboto:ital,wght@0,400;0,500;1,400;1,500&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" type="text/css" href="tonico.css" />
+    <title>El Tónico Africano para los hombres</title>
+  </head>
+  <body>
+    <div class="warning-top">
+      <h4><span id="viewers"></span> Gente mirando ahora mismo en <span id="cidade"></span>.</h4>
+    </div>
+    <div class="container">
+      <h1 class="titulo"></h1>
+      <div class="video-container">
+        <div
+          style="
+            position: relative;
+            width: 100%;
+            margin: 0 auto;
+            height: 100%;
+            padding-bottom: 56.2%;
+            padding-top: 0;
+          "
+        >
+          <iframe
+            id="iframe"
+            style="position: absolute; width: 100%; height: 100%; z-index: 100"
+            src="https://videomng.builderall.com/embed/U71JVwUaec/?autoplay=1&allowpause=1"
+            frameborder="0"
+            allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen
+          ></iframe>
+          <h1 class="click-to-listen">Click en el video 👇 para activar el sonido 🔊</h1>
+        </div>
+      </div>
+
+      <p class="volume-warning" style="margin-top: 5px;">🔊 ASEGÚRATE DE QUE TU SONIDO ESTÉ ENCENDIDO</p>
+      <p class="volume-warning">ATENCIÓN: ¡SU ACESSO SERÁ LIBERADO AL FINAL DEL VIDEO!</p>
+
+      <div class="button-container d-none" id="button-container">
+        <button onclick="formVisibility()">¡SÍ, QUIERO SER 8 VECES MÁS POTENTE!</button>
+        <h5><span id="qt-vagas">35</span> Recetas disponibles!</h5>
+      </div>
+
+      <div class="modal-container d-none" id="form-modal">
+      <div class="modal-overlay" onclick="formVisibility()"></div>
+      <div class="modal">
+        <a class="modal-closeX" onclick="formVisibility()">&#10005</a>
+        <div class="modal-content form-modal-content">
+          <h4>Crea tu acceso ahora</h4>
+          <p>
+            <i
+              >Completa tus datos para acceder <u>hoy mismo</u> 
+              al contenido de Tónico Africano</i 
+            >
+          </p>
+          <form onsubmit="return goToCheckout(this);">
+            <input
+              type="text"
+              id="input-nombre"
+              name="nombre"
+              placeholder="Tu nombre completo"
+              required="required"
+              onclick="scrollFomularion()"
+            /><br />
+            <input
+              type="email"
+              id="input-email"
+              name="email"
+              placeholder="Tu Email"
+              required="required"
+              onclick="scrollFomularion()"
+            /><br />
+            <input
+              type="number"
+              id="input-telefono"
+              name="telefono"
+              placeholder="Número de tu teléfono celular"
+              required="required"
+              onclick="scrollFomularion()"
+            /><br />
+            <button type="submit">Concluir</button>
+          </form>
+        </div>
+      </div>
+    </div>
+    
+    <p class="copyright">
+        Copyright 2021 &#8211; ©<br />Todos los derechos
+        reservados.
+    </p>
+    <script>
+
+      // Coloque aqui o tempo de delay do botão(em segundos)
+      const delayBotao = 1000*1530
+      // Coloque aqui o tempo de delay aviso no video(em segundos)
+      const delayVideoAviso = 10000
+      // Coloque aqui a url do chekout(detro das aspas)
+      const urlCheckout = "https://go.hotmart.com/M73464727R?ap=b601"
+      //  Coloque aqui a url do backredirect(detro das aspas)
+      const urlBackredirect = "https://eltonicoafricano.site/tonico-descuento";
+
+
+
+      const urlParams = new URLSearchParams(window.location.search);
+      const parametroHotmart = urlParams.get("src");
+      const goToCheckout = (form) => {
+        const name = document.getElementById("input-nombre").value
+        const email = document.getElementById("input-email").value
+        const telefono = document.getElementById("input-telefono").value
+        window.location.href = `${urlCheckout}&name=${name}&email=${email}&phonenumber=${telefono}&src=${parametroHotmart}`
+        return false;
+      }
+
+        window.setTimeout(() => {
+            document.getElementById("button-container").classList.remove("d-none");
+        }, delayBotao);
+        window.setTimeout(() => {
+            document.querySelector(".click-to-listen").classList.add("d-none");
+        }, delayVideoAviso);
+        const formVisibility = () => {
+            document.getElementById("form-modal").classList.toggle("d-none")
+        }
+        let qtVagas = 48
+        setInterval(function () {
+          if(qtVagas > 5){
+            qtVagas--
+          }
+          document.getElementById("qt-vagas").textContent = qtVagas;
+        }, 45000);
+        function random(min, max) {
+            return Math.floor(Math.random() * (max - min + 1) + min);
+        }
+        var initial = random(18, 133);
+        var count = initial;
+        setInterval(function () {
+            var variation = random(-5, 5);
+            count += variation;
+            if (count < 0) {
+                count = 13;
+            }
+            document.querySelector("#viewers").textContent = count;
+        }, 2500);
+        document.querySelector("#viewers").textContent = initial;
+        var request = new XMLHttpRequest();
+        request.open('GET', 'https://wtfismyip.com/json', true);
+        request.onload = function () {
+            if (this.status >= 200 && this.status < 400) {
+                var data = JSON.parse(this.response);
+                let output = data.YourFuckingLocation.replace(/\,.+/g, "$'");
+                document.getElementById("cidade").textContent = output;
+            } else { }
+        };
+        request.onerror = function () { };
+        request.send();
+
+         (function (b) {
+        var a = {
+          version: "0.0.1",
+          history_api: typeof history.pushState !== "undefined",
+          init: function () {
+            b.location.hash = "#no-back";
+            a.configure();
+          },
+          hasChanged: function () {
+            if (b.location.hash == "#no-back") {
+              b.location.hash = "#";
+              b.location.href = `${urlBackredirect}?src=${parametroHotmart}`; //LINK PARA REDIRECIONAR AQUI
+            }
+          },
+          checkCompat: function () {
+            if (b.addEventListener) {
+              b.addEventListener("hashchange", a.hasChanged, false);
+            } else {
+              if (b.attachEvent) {
+                b.attachEvent("onhashchange", a.hasChanged);
+              } else {
+                b.onhashchange = a.hasChanged;
+              }
+            }
+          },
+          configure: function () {
+            if (b.location.hash == "#no-back") {
+              if (this.history_api) {
+                history.pushState(null, "", "#");
+              } else {
+                b.location.hash = "#";
+                b.location.href = `${urlBackredirect}?src=${parametroHotmart}`; //LINK PARA REDIRECIONAR AQUI
+              }
+            }
+            a.checkCompat();
+            a.hasChanged();
+          },
+        };
+        if (typeof define === "function" && define.amd) {
+          define(function () {
+            return a;
+          });
+        } else {
+          if (typeof module === "object" && module.exports) {
+            module.exports = a;
+          } else {
+            b.noback = a;
+          }
+        }
+        a.init();
+      })(window);
+    </script>
+  </body>
+</html>
